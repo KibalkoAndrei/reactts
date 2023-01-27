@@ -1,14 +1,11 @@
-import { useState} from 'react';
-import './App.css';
-import Chart from './components/chart';
-import InputTable from './components/input';
+import React, { useState } from "react";
 
-function App() {
 
-  const [list, setList] = useState<Array<object>>([])
-  const [button, setButton] = useState<string>('START')
-  const [title, setTitle] = useState<string>('')
-  const [boolItem, setBoolItem] = useState<boolean>(false)
+
+const InputTable = ({lst, SetList}: GenericList) => {
+    const [button, setButton] = useState<string>('START')
+    const [title, setTitle] = useState<string>('')
+    const [boolItem, setBoolItem] = useState<boolean>(false)
 
     const OnChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
         setTitle(e.target.value)
@@ -20,7 +17,7 @@ function App() {
         return Math.floor(Math.random() * (max - min + 1) + min);
     }
 
-   console.log(setList)
+   console.log(SetList)
     const newIP:object  = {
         id: Date.now(),
         ip: title,
@@ -35,17 +32,16 @@ function App() {
         setBoolItem(!boolItem)
         if (boolItem) {
             setButton('STOP');
-            setList([...list, newIP])
+            SetList(newIP)
         };
         if (!boolItem) {
             setButton('START')
         }
     };
 
-
-  return (
-    <div className="App">
-              <form action="">
+    return(
+        <div>
+        <form action="">
             <input
                 placeholder="Введите ваш IP"
                 value={title}
@@ -53,27 +49,8 @@ function App() {
             />
             <button type="submit" onClick={addIP}>{button}</button>
         </form>
-
-        <table>
-          <tr>
-            <td>IP</td>
-            <td>Значение</td>
-            <td>индекс</td>
-          </tr>
-          {
-            list.map((listIp) => {
-              <tr>
-                <td>{listIp.ip}</td>
-                <td>{listIp.time}</td>
-                <td>{listIp.id}</td>
-              </tr>
-            })
-          }
-        </table>
-        
-      <Chart/>
-    </div>
-  );
+        </div>
+    )
 }
 
-export default App;
+export default InputTable;
