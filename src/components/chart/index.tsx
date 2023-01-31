@@ -1,7 +1,4 @@
 import React from 'react';
-import { Line } from 'react-chartjs-2';
-import {faker} from '@faker-js/faker';
-import './style.css'
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -13,7 +10,8 @@ import {
   Filler,
   Legend,
 } from 'chart.js';
-
+import './style.css'
+import { Line } from 'react-chartjs-2';
 
 ChartJS.register(
   CategoryScale,
@@ -30,29 +28,40 @@ export const options = {
   responsive: true,
   plugins: {
     legend: {
-      position: 'top' as const,
+      position: 'bottom' as const,
     },
-
+    title: {
+      display: true,
+    },
   },
 };
 
-const labels = ['', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ];
 
-export const data = {
-  labels,
+
+
+
+interface ChartProps {
+  listIP: Array<string>,
+  listId: Array<number>,
+  listTime: Array<number>
+}
+const Chart:React.FunctionComponent<ChartProps> = ({listIP, listId, listTime}) => {
+  const labels = listIP;
+
+  const data = {
+    labels,
   datasets: [
     {
       fill: true,
-      label: 'время приема-передачи в мс',
-      data: labels.map(() => faker.datatype.number({ min: 30, max: 100 })),
+      label: 'Dataset 2',
+      data: listTime,
       borderColor: 'rgb(53, 162, 235)',
       backgroundColor: 'rgba(53, 162, 235, 0.5)',
     },
   ],
 };
-
-const Chart = () => {
-  return <div className='Chart'><Line options={options} data={data} /></div>;
+  return <Line className='chart' options={options} data={data} />;
 }
+
 
 export default Chart;
