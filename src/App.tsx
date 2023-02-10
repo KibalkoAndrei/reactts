@@ -1,4 +1,4 @@
-import {  useEffect,  useRef,  useState} from 'react';
+import { useEffect, useRef, useState } from 'react';
 import './App.css';
 import Chart from './components/chart';
 
@@ -13,85 +13,73 @@ function App() {
   const [title, setTitle] = useState<string>('');
   const [boolItem, setBoolItem] = useState<boolean>(false);
 
-    const OnChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setTitle(e.target.value)
-    };
+  const OnChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(e.target.value)
+  };
 
-    function getRandomIntInclusive(min: number, max: number) {
-        min = Math.ceil(min);
-        max = Math.floor(max);
-        return Math.floor(Math.random() * (max - min + 1) + min);
+  function getRandomIntInclusive(min: number, max: number) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1) + min);
+  }
+
+  const refCount = useRef<number | null>(null)
+
+  useEffect(() => {
+    if (refCount.current !== null) return
+    if (boolItem) {
+      refCount.current = window.setInterval(() => {
+        setlistTime(listTime => [...listTime, getRandomIntInclusive(40, 400)])
+        setListIp(listIp => [...listIp, title])
+        setlistId(listId => [...listId, 0 + listId.length])
+      }, 1000);
+    };
+    if (!boolItem) {
+      if (refCount.current) {
+        window.clearInterval(refCount.current)
+        refCount.current = null
+        setButton('START')
+      }
     }
-
-    const refCount = useRef<number | null | void | string >(null)  
-
-
-    // useEffect(() => {
-    //   return () => clearInterval(refCount.current);
-    // }, []);
-
-    useEffect(()=> {
-      if (boolItem) {
-          refCount.current = window.setInterval(()=> {
-          setlistTime(listTime => [...listTime, getRandomIntInclusive(40, 400)])
-          setListIp(listIp => [...listIp, title])
-          setlistId(listId => [...listId, 0+listId.length])
-        }, 1000);
-      };
-        if  (!boolItem) {
-        //  clearInterval(refCount.current)
-          refCount.current = null
-          setButton('START')
-        }
-       
-	    
-      
-    }, [boolItem, title])
-
-  
-  
-
-    const addIP = (e: React.MouseEvent<HTMLButtonElement>) => {
-        e.preventDefault()
-        setBoolItem(!boolItem)
-        setButton('STOP')  
+    return () => {
+      if (refCount.current !== null) {
+        window.clearInterval(refCount.current);
+      }
     };
-
-    // const closeIP = (e: React.MouseEvent<HTMLButtonElement>) => {
-    //   intervalRef = clearInterval(intervalRef); 
-    // }        
-
-    
+  }, [boolItem, title])
 
 
+  const addIP = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault()
+    setBoolItem(!boolItem)
+    setButton('STOP')
+  };
 
-    console.log(listTime, button, boolItem)
   return (
     <div className="App">
-        <form action="">
-            <input
-                placeholder="Введите ваш IP"
-                value={title}
-                onChange={OnChangeHandler}
-            />
-            <button type="submit" onClick={addIP}>{button}</button>
-            {/* <button type="submit" onClick={closeIP}>STOP</button> */}
-        </form>
-        <div className='table'>
-          <div>
-            <div className='tr1'>ID</div>
-            {listId.map((listItem) => <div className='tr1'>{listItem}</div>)}
-          </div>
-          <div>
-            <div className='tr2'>IP</div>
-            {listIp.map((listItem) => <div className='tr2'>{listItem}</div>)}
-          </div>
-          <div>
-            <div className='tr3'>ITEM</div>
-            {listTime.map((listItem) => <div className='tr3'>{listItem}</div>)}
-          </div>
+      <form action="">
+        <input
+          placeholder="Введите ваш IP"
+          value={title}
+          onChange={OnChangeHandler}
+        />
+        <button type="submit" onClick={addIP}>{button}</button>
+      </form>
+      <div className='table'>
+        <div>
+          <div className='tr1'>ID</div>
+          {listId.map((listItem) => <div className='tr1'>{listItem}</div>)}
         </div>
-      <Chart listIP={listIp} listId={listId} listTime={listTime}/>
+        <div>
+          <div className='tr2'>IP</div>
+          {listIp.map((listItem) => <div className='tr2'>{listItem}</div>)}
+        </div>
+        <div>
+          <div className='tr3'>ITEM</div>
+          {listTime.map((listItem) => <div className='tr3'>{listItem}</div>)}
+        </div>
+      </div>
+      <Chart listIP={listIp} listId={listId} listTime={listTime} />
     </div>
   );
 }
