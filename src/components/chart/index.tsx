@@ -53,7 +53,7 @@ const Chart:React.FunctionComponent<ChartProps> = ({listIP, listId, listTime}) =
   datasets: [
     {
       fill: true,
-      label: 'Dataset 2',
+      label: 'время-передачи мск',
       data: listTime,
       borderColor: 'rgb(53, 162, 235)',
       backgroundColor: 'rgba(53, 162, 235, 0.5)',

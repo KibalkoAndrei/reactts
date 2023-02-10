@@ -9,22 +9,25 @@
 
 .table {
   display: flex;
-  width: 100px;
-   margin: 50px auto;
+  width: 200px;
+  height: 100px;
+  margin: 50px auto;
+  overflow-y: scroll;
+  
 }
 
 .tr1 {
-  padding: 5px;
+  padding: 10px;
   border-right: 1px solid black ;
 }
 
 .tr2 {
-  padding: 5px;
+  padding: 10px;
   border-right: 1px solid black ;
 }
 
 .tr3 {
-  padding: 5px;
+  padding: 10px;
 }
 
 @media (prefers-reduced-motion: no-preference) {

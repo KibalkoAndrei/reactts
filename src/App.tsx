@@ -1,4 +1,4 @@
-import { useState} from 'react';
+import {  useEffect,  useRef,  useState} from 'react';
 import './App.css';
 import Chart from './components/chart';
 
@@ -23,23 +23,49 @@ function App() {
         return Math.floor(Math.random() * (max - min + 1) + min);
     }
 
- 
+    const refCount = useRef<number | null | void | string >(null)  
+
+
+    // useEffect(() => {
+    //   return () => clearInterval(refCount.current);
+    // }, []);
+
+    useEffect(()=> {
+      if (boolItem) {
+          refCount.current = window.setInterval(()=> {
+          setlistTime(listTime => [...listTime, getRandomIntInclusive(40, 400)])
+          setListIp(listIp => [...listIp, title])
+          setlistId(listId => [...listId, 0+listId.length])
+        }, 1000);
+      };
+        if  (!boolItem) {
+        //  clearInterval(refCount.current)
+          refCount.current = null
+          setButton('START')
+        }
+       
+	    
+      
+    }, [boolItem, title])
+
+  
+  
 
     const addIP = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault()
         setBoolItem(!boolItem)
-        if (boolItem) {
-            setButton('STOP');
-            setListIp([...listIp, title, title, title, title, title, title, title, title,])
-            setlistId([...listId, Date.now(), Date.now(), Date.now(), Date.now(), Date.now(), Date.now(), Date.now(), Date.now()])
-            setlistTime([...listTime, getRandomIntInclusive(30, 40), getRandomIntInclusive(30, 40), getRandomIntInclusive(30, 40), getRandomIntInclusive(30, 40), getRandomIntInclusive(30, 40), getRandomIntInclusive(30, 40), getRandomIntInclusive(30, 40), getRandomIntInclusive(30, 40)])
-        };
-        if (!boolItem) {
-            setButton('START')
-        }
+        setButton('STOP')  
     };
-  console.log(listIp, listTime)
 
+    // const closeIP = (e: React.MouseEvent<HTMLButtonElement>) => {
+    //   intervalRef = clearInterval(intervalRef); 
+    // }        
+
+    
+
+
+
+    console.log(listTime, button, boolItem)
   return (
     <div className="App">
         <form action="">
@@ -49,19 +75,20 @@ function App() {
                 onChange={OnChangeHandler}
             />
             <button type="submit" onClick={addIP}>{button}</button>
+            {/* <button type="submit" onClick={closeIP}>STOP</button> */}
         </form>
         <div className='table'>
           <div>
-            <div className='td1'>ID</div>
-            {listIp.map((listItem) => <div className='tr1'>{listItem}</div>)}
+            <div className='tr1'>ID</div>
+            {listId.map((listItem) => <div className='tr1'>{listItem}</div>)}
           </div>
           <div>
-            <div className='td2'>IP</div>
+            <div className='tr2'>IP</div>
             {listIp.map((listItem) => <div className='tr2'>{listItem}</div>)}
           </div>
           <div>
-            <div className='td3'>ITEM</div>
-            {listIp.map((listItem) => <div className='tr3'>{listItem}</div>)}
+            <div className='tr3'>ITEM</div>
+            {listTime.map((listItem) => <div className='tr3'>{listItem}</div>)}
           </div>
         </div>
       <Chart listIP={listIp} listId={listId} listTime={listTime}/>
