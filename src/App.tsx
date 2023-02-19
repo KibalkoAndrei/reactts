@@ -1,14 +1,14 @@
 import { useEffect, useRef, useState } from 'react';
 import './App.css';
-import Chart from './components/chart';
+import Circlex from './components/chart/chart';
 
 
 
 function App() {
 
-  const [listIp, setListIp] = useState<Array<string>>([]);
+  const [listIp, setListIp] = useState<Array<string>>(['']);
   const [listId, setlistId] = useState<Array<number>>([]);
-  const [listTime, setlistTime] = useState<Array<number>>([]);
+  const [listTime, setlistTime] = useState<Array<number>>([ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,]);
   const [button, setButton] = useState<string>('START');
   const [title, setTitle] = useState<string>('');
   const [boolItem, setBoolItem] = useState<boolean>(false);
@@ -29,7 +29,7 @@ function App() {
     if (refCount.current !== null) return
     if (boolItem) {
       refCount.current = window.setInterval(() => {
-        setlistTime(listTime => [...listTime, getRandomIntInclusive(40, 400)])
+        setlistTime(listTime => [...listTime, getRandomIntInclusive(40, 60)])
         setListIp(listIp => [...listIp, title])
         setlistId(listId => [...listId, 0 + listId.length])
       }, 1000);
@@ -44,14 +44,15 @@ function App() {
     return () => {
       if (refCount.current !== null) {
         window.clearInterval(refCount.current);
+        setButton('START')
       }
     };
   }, [boolItem, title])
 
-
   const addIP = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
     setBoolItem(!boolItem)
+
     setButton('STOP')
   };
 
@@ -79,7 +80,8 @@ function App() {
           {listTime.map((listItem) => <div className='tr3'>{listItem}</div>)}
         </div>
       </div>
-      <Chart listIP={listIp} listId={listId} listTime={listTime} />
+      {/* <Circle refCount={refCount} listTime={listTime}/> */}
+      <Circlex  listTime={listTime}/>
     </div>
   );
 }
