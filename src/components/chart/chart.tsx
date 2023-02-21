@@ -8,8 +8,8 @@ interface ChartProps {
   
   const Circle:React.FunctionComponent<ChartProps> = ({listTime}) => {
   
-    const [data, setData] = useState([
-        { name: '1', value: listTime.at(-1) },
+    const [data, setData] = useState<Array<object>>([
+
       ]);
 
 
@@ -59,11 +59,6 @@ interface ChartProps {
         d3.select(ref).call(yAxis);
     };
           
-    const getXAxis = (ref: any) => {
-        const xAxis = d3.axisBottom(getX);
-        d3.select(ref).call(xAxis);
-    };
-
     const linePath = d3
         .line()
         .x(d => getX(d.name) + getX.bandwidth() / 2)
@@ -79,21 +74,6 @@ interface ChartProps {
     return (
         <svg className='chart'>
             <g ref={getYAxis} transform={`translate(23,0)`}/>
-    {/* <g
-      ref={getXAxis}
-      transform={`translate(0,${getY(0)})`} 
-    /> */}
-        {data.map((item, index) => {
-          return (
-            <circle
-              key={index}
-              cx={getX(item.name) + getX.bandwidth() / 2}
-              cy={getY(item.value)}
-              r={4}
-              fill="#7cb5ec"
-            />
-          );
-        })}
         <path
             strokeWidth={3}
             fill="none"

@@ -8,7 +8,7 @@ function App() {
 
   const [listIp, setListIp] = useState<Array<string>>(['']);
   const [listId, setlistId] = useState<Array<number>>([]);
-  const [listTime, setlistTime] = useState<Array<number>>([ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,]);
+  const [listTime, setlistTime] = useState<Array<number>>([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ]);
   const [button, setButton] = useState<string>('START');
   const [title, setTitle] = useState<string>('');
   const [boolItem, setBoolItem] = useState<boolean>(false);
@@ -47,7 +47,7 @@ function App() {
         setButton('START')
       }
     };
-  }, [boolItem, title])
+  }, [boolItem])
 
   const addIP = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
@@ -55,6 +55,8 @@ function App() {
 
     setButton('STOP')
   };
+
+  let filtListTime = listTime.filter((number) => {return number>0})
 
   return (
     <div className="App">
@@ -77,7 +79,7 @@ function App() {
         </div>
         <div>
           <div className='tr3'>ITEM</div>
-          {listTime.map((listItem) => <div className='tr3'>{listItem}</div>)}
+          {filtListTime.map((listItem) => <div className='tr3'>{listItem}</div>)}
         </div>
       </div>
       {/* <Circle refCount={refCount} listTime={listTime}/> */}
