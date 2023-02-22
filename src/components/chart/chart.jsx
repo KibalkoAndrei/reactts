@@ -2,16 +2,11 @@ import { useEffect, useState } from 'react';
 import * as d3 from 'd3'
 import './Chart.css'
 
-interface ChartProps {
-    listTime: Array<number>
-  }
-  
-  const Circle:React.FunctionComponent<ChartProps> = ({listTime}) => {
-  
-    const [data, setData] = useState<Array<object>>([
 
-      ]);
-
+  
+  const Circle = ({listTime}) => {
+  
+  const [data, setData] = useState([]);
 
   useEffect(()=>{
        setData([
@@ -24,9 +19,9 @@ interface ChartProps {
         { name: '7', value: listTime.at(-24) },
         { name: '8', value: listTime.at(-23) },
         { name: '9', value: listTime.at(-22) },
-        { name: '10', value: listTime.at(-21) },
-        { name: '11', value: listTime.at(-20) },
-        { name: '12', value: listTime.at(-19) },
+        { name: '10', value: listTime.at(-21)},
+        { name: '11', value: listTime.at(-20)},
+        { name: '12', value: listTime.at(-19)},
         { name: '13', value: listTime.at(-18)},
         { name: '13', value: listTime.at(-17)},
         { name: '14', value: listTime.at(-16)},
@@ -49,12 +44,12 @@ interface ChartProps {
   },[listTime])
 
     const getX = d3.scaleBand()
-        .domain(['1','2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29'])
+        .domain(['1','2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30'])
         .range([0, 1200]);
     const getY = d3.scaleLinear()
         .domain([0, 150])
         .range([300, 0]);
-    const getYAxis = (ref: any) => {
+    const getYAxis = (ref) => {
         const yAxis = d3.axisLeft(getY);
         d3.select(ref).call(yAxis);
     };

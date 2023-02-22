@@ -5,7 +5,6 @@ import Circlex from './components/chart/chart';
 
 
 function App() {
-
   const [listIp, setListIp] = useState<Array<string>>(['']);
   const [listId, setlistId] = useState<Array<number>>([]);
   const [listTime, setlistTime] = useState<Array<number>>([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ]);
@@ -44,6 +43,7 @@ function App() {
     return () => {
       if (refCount.current !== null) {
         window.clearInterval(refCount.current);
+        refCount.current=null
         setButton('START')
       }
     };
@@ -52,7 +52,6 @@ function App() {
   const addIP = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
     setBoolItem(!boolItem)
-
     setButton('STOP')
   };
 
@@ -82,7 +81,6 @@ function App() {
           {filtListTime.map((listItem) => <div className='tr3'>{listItem}</div>)}
         </div>
       </div>
-      {/* <Circle refCount={refCount} listTime={listTime}/> */}
       <Circlex  listTime={listTime}/>
     </div>
   );
